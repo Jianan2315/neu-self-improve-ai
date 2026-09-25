@@ -1,0 +1,19 @@
+# Local dependency checkouts and runtimes; see committed setup instructions.
+/OpenRA-RL/
+**/.runtime/
+**/.venv/
+**/venv/
+**/.runtime-path
+**/.env
+**/.env.*
+!**/.env.example
+**/__pycache__/
+**/*.pyc
+# Curated evidence/ is tracked; repeated runs and development backups are not.
+/pursuit-prototype/runs/
+/pursuit-prototype/runs-final/
+/pursuit-prototype/designer-runs/
+/pursuit-prototype/controller-validation/
+/pursuit-prototype/backups/
+/pursuit-prototype/*.log
+/pursuit-prototype/DESIGNER_LOOP_VALIDATION.md
