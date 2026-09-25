@@ -1,0 +1,30 @@
+{
+  "based_on": "pursuit_001",
+  "observed_end_reason": "attacker_dead",
+  "observed_route_completed": false,
+  "reason": "Observe B after A retreats, particularly whether B continues pursuit or changes its strategy.",
+  "question": "Does B continue pursuing after A retreats, or does B adjust its strategy?",
+  "scenario": {
+    "name": "designer_r01_a02",
+    "attacker_type": "1tnk",
+    "defender_type": "1tnk",
+    "seed": 1234,
+    "max_ticks": 1200,
+    "attack_tick": 10,
+    "sample_interval": 5,
+    "attacker_cell": [
+      16,
+      18
+    ],
+    "defender_cell": [
+      21,
+      18
+    ],
+    "escape_route": [
+      [
+        3,
+        18
+      ]
+    ]
+  }
+}

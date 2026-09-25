@@ -1,0 +1,105 @@
+{
+  "seed_history_path": "evidence/baseline/history.json",
+  "seed_history_sha256": "8ea3fe28ead12333b2620458b8a6ae26f6533d658e2b55aa26b1749a1ed28085",
+  "model": "qwen3:8b",
+  "endpoint": "http://localhost:11434",
+  "runtime_root": "<local-runtime-not-committed>",
+  "code_sha256": {
+    "designer_loop.py": "e73ffbc46439042c9100e40ac7f53556e58078cd7507c660919c72d1c6254f31",
+    "designer_context.md": "ad2d3dcc15cd7fd49f12e27da01919b37183ba6607c14629bac9d6394037a6e3",
+    "pursuit.py": "6b0c448ea34227486833863e59ef9fb2211b56438276669a27b98b084307ec83",
+    "scenario.lua.template": "484be7d0d963931ff8007f7eb287dad2fc93b07f254429f504678a93af42a201"
+  },
+  "review_revalidation": {
+    "designer_loop_sha256": "176091239115322e053568e3b669a4e37a7b48aa1241264f53adc4c52691af3f",
+    "calls_prefix": "verified_review",
+    "passed": true,
+    "note": "Final fact review was strengthened and rerun after the two completed game experiments; original free-text review retained as unverified."
+  },
+  "publication_note": "Personal paths were normalized and Chinese prose was translated into English for publication. Source hashes identify the earlier tested code. Translated call records are not verbatim raw transcripts; measured results and event streams are unchanged.",
+  "english_publication": {
+    "description": "English translations of historical Chinese prose; not a rerun with English prompts. Paths below are relative to evidence/. Original erroneous model claims are retained as errors, not corrected in translation.",
+    "files": [
+      {
+        "path": "designer-two-rounds/calls/designer_r01_a01/parsed.json",
+        "original_sha256": "8af0b7b504a052a14bb4b0c08ec2a0e0d501e80a547f6c9b5216db871a1ae9ac",
+        "english_sha256": "2acee55bdea73fb3268791663eddaeb229d31cfb65dc350a8a4824cfcd8c695d"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r01_a01/request.json",
+        "original_sha256": "e55dd33ea1d6f8899cdc49c16a192f8cebf2f27a5017fd25d8dada7775a4fd78",
+        "english_sha256": "87099d59d483399ac643a2cfd968d9c8e66ea9c06196535f180fca0ea7e06c34"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r01_a01/response.json",
+        "original_sha256": "4834786b377433d40804b910248c51f7485afd1f4bf4fa2391c197a7de3145b4",
+        "english_sha256": "912d12583e8394dd54a550aeecbbafc804b30fad3e8704f3b7133f81caf686ef"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r01_a02/parsed.json",
+        "original_sha256": "81524c10b69af3a5fca07040bf5e990c0983de8e5f9845d83c65e6ea1a6e26ae",
+        "english_sha256": "9537b28e1554cc5a23825b9478e2935c69c6a7157adab038d108b8a668264583"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r01_a02/request.json",
+        "original_sha256": "941041a048aac6d2ab5842e6ac993953b64750914e7a630534b0f793c68034df",
+        "english_sha256": "9f106013feb11fcaadc02543bf3182bb348876a6ada5ca3fd5fa73a7235f3aa3"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r01_a02/response.json",
+        "original_sha256": "fd93ac039e50a09021bd0f5052771fc367fc3c11d6fc2d8658880229fafc79de",
+        "english_sha256": "8efc1c892b4e01adac5040d4d302c48119f73a3d579f2904c9f60b8fdc7aa564"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r02_a01/parsed.json",
+        "original_sha256": "a0699adeb85477c31416495f78faec183343630234dc34fd9124866e1621c9d0",
+        "english_sha256": "f3f4223480e3823bddbbaae36c6e99556dbd3c6bab63d44b4bb4d05f9bac1d64"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r02_a01/request.json",
+        "original_sha256": "a0fbcb7662554ec4baf03eb2df788d5e0bd150b79e75a9b9f201145460f07696",
+        "english_sha256": "34b2fb437c6be7f06d5a2c804443d5c5a051b751e82c99cc34e309e3075d8905"
+      },
+      {
+        "path": "designer-two-rounds/calls/designer_r02_a01/response.json",
+        "original_sha256": "161a6e4e202f87878472d0ae87dd6eb520f57929f8f5036d75765ad65ae08641",
+        "english_sha256": "3785dd329711f8a39042b0fe70dcdc833e6883b8fe3e4f6a2b34b84de71d4709"
+      },
+      {
+        "path": "designer-two-rounds/calls/final_review_1/parsed.json",
+        "original_sha256": "47e54fe7e9802469d85d6d8c52da0388e5a7d1dd55b14d57021955c7f73e830d",
+        "english_sha256": "d37049f0b4ac967da5b7448aa0f9ede83164a654f6bf07ee489b92d0fe2140cb"
+      },
+      {
+        "path": "designer-two-rounds/calls/final_review_1/response.json",
+        "original_sha256": "480797047a4afb0dcf7c95d054f98586cf1e36a3dc7d2c88b1774ee29302a847",
+        "english_sha256": "0d903959cb5864816ec9b3e29ab94675c9b1d2ba8413644c5aa7078197c1d1b2"
+      },
+      {
+        "path": "designer-two-rounds/calls/verified_review_1/parsed.json",
+        "original_sha256": "57f1faa431559d28b7e0ddd3902587776031a1d006a17448d83dfbd857e82416",
+        "english_sha256": "d2bd864048ac379442ba0de778e4976bae13ac2342161b2593aa4abadf8f28af"
+      },
+      {
+        "path": "designer-two-rounds/calls/verified_review_1/response.json",
+        "original_sha256": "83bc55e40f90933c6785aa02adbb6bdc89518136a1e4426acaac03ce698d2eef",
+        "english_sha256": "f6b0aaa031286e82f77e2463dac9bac3810f5bf94d61f1c8432f2ab4d43aab4e"
+      },
+      {
+        "path": "designer-two-rounds/final-review-unverified-original.json",
+        "original_sha256": "47e54fe7e9802469d85d6d8c52da0388e5a7d1dd55b14d57021955c7f73e830d",
+        "english_sha256": "d37049f0b4ac967da5b7448aa0f9ede83164a654f6bf07ee489b92d0fe2140cb"
+      },
+      {
+        "path": "designer-two-rounds/final-review.json",
+        "original_sha256": "9c97033fe9a3f222a49c93b1087657c5ecbe4054687c0bb3f2afdc16cacb342b",
+        "english_sha256": "34a6a7d4f3457be3e40dad16961468629cd94cb8c8f281a54514b0f8391ff8e2"
+      },
+      {
+        "path": "designer-two-rounds/history.json",
+        "original_sha256": "cb416c06222bae6a29184d72a70658fab4057aac193e7edfeca9438e770ed13b",
+        "english_sha256": "dee1d73f3ea6837eaea3f753625d2cb3d378d72cfda48a0d479339aa0b7be721"
+      }
+    ]
+  }
+}

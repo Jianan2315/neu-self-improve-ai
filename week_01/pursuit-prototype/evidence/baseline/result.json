@@ -1,0 +1,19 @@
+{
+  "valid": true,
+  "errors": [],
+  "hit_count": 1,
+  "first_hit_tick": 67,
+  "escape_tick": 67,
+  "end_reason": "attacker_dead",
+  "attacker_displacement_cells_after_escape": 1.0,
+  "defender_displacement_cells_after_escape": 3.0,
+  "defender_moved_toward_attacker_segments": 5,
+  "defender_damage_events": 4,
+  "escape_waypoints_reached": 0,
+  "escape_route_completed": false,
+  "behavior_note": "Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.",
+  "name": "pursuit_001",
+  "max_seen_tick": 150,
+  "process_stopped": true,
+  "map_sha256": "a73c691ea0c9d5b2a4becc17a41b33add272fa0522aa18bb5de73ab48add9923"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "pursuit_001",
+  "seed": 1234,
+  "attacker_type": "arty",
+  "defender_type": "1tnk",
+  "attacker_cell": [16, 18],
+  "defender_cell": [21, 18],
+  "escape_route": [[8, 18]],
+  "max_ticks": 600,
+  "attack_tick": 10,
+  "sample_interval": 5
+}

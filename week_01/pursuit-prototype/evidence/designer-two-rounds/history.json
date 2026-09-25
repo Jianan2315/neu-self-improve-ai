@@ -1,0 +1,208 @@
+[
+  {
+    "spec": {
+      "name": "pursuit_001",
+      "seed": 1234,
+      "attacker_type": "arty",
+      "defender_type": "1tnk",
+      "attacker_cell": [
+        16,
+        18
+      ],
+      "defender_cell": [
+        21,
+        18
+      ],
+      "escape_route": [
+        [
+          8,
+          18
+        ]
+      ],
+      "max_ticks": 600,
+      "attack_tick": 10,
+      "sample_interval": 5
+    },
+    "result": {
+      "valid": true,
+      "errors": [],
+      "end_reason": "attacker_dead",
+      "first_hit_tick": 67,
+      "hit_count": 1,
+      "escape_tick": 67,
+      "defender_damage_events": 4,
+      "escape_route_completed": false,
+      "escape_waypoints_reached": 0,
+      "attacker_displacement_cells_after_escape": 1.0,
+      "defender_displacement_cells_after_escape": 3.0,
+      "defender_moved_toward_attacker_segments": 5,
+      "behavior_note": "Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed."
+    }
+  },
+  {
+    "spec": {
+      "name": "designer_r01_a02",
+      "attacker_type": "1tnk",
+      "defender_type": "1tnk",
+      "seed": 1234,
+      "max_ticks": 1200,
+      "attack_tick": 10,
+      "sample_interval": 5,
+      "attacker_cell": [
+        16,
+        18
+      ],
+      "defender_cell": [
+        21,
+        18
+      ],
+      "escape_route": [
+        [
+          3,
+          18
+        ]
+      ]
+    },
+    "result": {
+      "valid": true,
+      "errors": [],
+      "hit_count": 1,
+      "first_hit_tick": 30,
+      "escape_tick": 30,
+      "end_reason": "attacker_dead",
+      "attacker_displacement_cells_after_escape": 14.0,
+      "defender_displacement_cells_after_escape": 15.0,
+      "defender_moved_toward_attacker_segments": 30,
+      "defender_damage_events": 20,
+      "escape_waypoints_reached": 1,
+      "escape_route_completed": true,
+      "behavior_note": "Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.",
+      "native_stop_after_tick": 30,
+      "name": "designer_r01_a02",
+      "max_seen_tick": 438,
+      "process_stopped": true,
+      "map_sha256": "57e2f7efbe59fc2e9a5c56454a675f5e5a224aff098b8c934b69ba7aaf8866b9"
+    },
+    "proposal": {
+      "based_on": "pursuit_001",
+      "observed_end_reason": "attacker_dead",
+      "observed_route_completed": false,
+      "reason": "Observe B after A retreats, particularly whether B continues pursuit or changes its strategy.",
+      "question": "Does B continue pursuing after A retreats, or does B adjust its strategy?",
+      "scenario": {
+        "name": "designer_r01_a02",
+        "attacker_type": "1tnk",
+        "defender_type": "1tnk",
+        "seed": 1234,
+        "max_ticks": 1200,
+        "attack_tick": 10,
+        "sample_interval": 5,
+        "attacker_cell": [
+          16,
+          18
+        ],
+        "defender_cell": [
+          21,
+          18
+        ],
+        "escape_route": [
+          [
+            3,
+            18
+          ]
+        ]
+      }
+    },
+    "complexity": {
+      "planned_destinations": 1,
+      "planned_turns": 0
+    }
+  },
+  {
+    "spec": {
+      "name": "designer_r02_a01",
+      "attacker_type": "1tnk",
+      "defender_type": "1tnk",
+      "seed": 1234,
+      "max_ticks": 1200,
+      "attack_tick": 10,
+      "sample_interval": 5,
+      "attacker_cell": [
+        16,
+        18
+      ],
+      "defender_cell": [
+        21,
+        18
+      ],
+      "escape_route": [
+        [
+          3,
+          18
+        ],
+        [
+          3,
+          15
+        ]
+      ]
+    },
+    "result": {
+      "valid": true,
+      "errors": [],
+      "hit_count": 1,
+      "first_hit_tick": 30,
+      "escape_tick": 30,
+      "end_reason": "attacker_dead",
+      "attacker_displacement_cells_after_escape": 14.318,
+      "defender_displacement_cells_after_escape": 16.0,
+      "defender_moved_toward_attacker_segments": 33,
+      "defender_damage_events": 20,
+      "escape_waypoints_reached": 2,
+      "escape_route_completed": true,
+      "behavior_note": "Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.",
+      "native_stop_after_tick": 30,
+      "name": "designer_r02_a01",
+      "max_seen_tick": 438,
+      "process_stopped": true,
+      "map_sha256": "8cd348f287c2795ebe0eaa4e773d641dc1805b278b521772845c667aff6c2c48"
+    },
+    "proposal": {
+      "based_on": "designer_r01_a02",
+      "observed_end_reason": "attacker_dead",
+      "observed_route_completed": true,
+      "reason": "Add another turn to observe changes in B's pursuit behavior.",
+      "question": "Can B still pursue effectively after A adds a turn?",
+      "scenario": {
+        "name": "designer_r02_a01",
+        "attacker_type": "1tnk",
+        "defender_type": "1tnk",
+        "seed": 1234,
+        "max_ticks": 1200,
+        "attack_tick": 10,
+        "sample_interval": 5,
+        "attacker_cell": [
+          16,
+          18
+        ],
+        "defender_cell": [
+          21,
+          18
+        ],
+        "escape_route": [
+          [
+            3,
+            18
+          ],
+          [
+            3,
+            15
+          ]
+        ]
+      }
+    },
+    "complexity": {
+      "planned_destinations": 2,
+      "planned_turns": 1
+    }
+  }
+]

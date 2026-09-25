@@ -1,0 +1,10 @@
+{
+  "last_scene": "designer_r02_a01",
+  "observed_end_reason": "attacker_dead",
+  "first_hit_attacker": "A",
+  "first_hit_target": "B",
+  "experiment_valid": true,
+  "first_hit_tick": 30,
+  "waypoints_reached": 2,
+  "next_question": "Did A successfully evade B's pursuit during the retreat?"
+}

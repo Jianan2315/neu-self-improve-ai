@@ -1,0 +1,42 @@
+[
+  {
+    "spec": {
+      "name": "pursuit_001",
+      "seed": 1234,
+      "attacker_type": "arty",
+      "defender_type": "1tnk",
+      "attacker_cell": [
+        16,
+        18
+      ],
+      "defender_cell": [
+        21,
+        18
+      ],
+      "escape_route": [
+        [
+          8,
+          18
+        ]
+      ],
+      "max_ticks": 600,
+      "attack_tick": 10,
+      "sample_interval": 5
+    },
+    "result": {
+      "valid": true,
+      "errors": [],
+      "end_reason": "attacker_dead",
+      "first_hit_tick": 67,
+      "hit_count": 1,
+      "escape_tick": 67,
+      "defender_damage_events": 4,
+      "escape_route_completed": false,
+      "escape_waypoints_reached": 0,
+      "attacker_displacement_cells_after_escape": 1.0,
+      "defender_displacement_cells_after_escape": 3.0,
+      "defender_moved_toward_attacker_segments": 5,
+      "behavior_note": "Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed."
+    }
+  }
+]

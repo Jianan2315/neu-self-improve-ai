@@ -1,0 +1,35 @@
+{
+  "status": "complete",
+  "model": "qwen3:8b",
+  "requested_rounds": 2,
+  "completed_rounds": 2,
+  "feedback_reviewed": true,
+  "attempts": [
+    {
+      "round": 1,
+      "attempt": 1,
+      "name": "designer_r01_a01",
+      "configuration_valid": false,
+      "feedback": {
+        "configuration_error": "ValueError: First destination must be west boundary at unchanged y: [3, 18]; do not include starting position"
+      }
+    },
+    {
+      "round": 1,
+      "attempt": 2,
+      "name": "designer_r01_a02",
+      "configuration_valid": true,
+      "experiment_valid": true,
+      "end_reason": "attacker_dead"
+    },
+    {
+      "round": 2,
+      "attempt": 1,
+      "name": "designer_r02_a01",
+      "configuration_valid": true,
+      "experiment_valid": true,
+      "end_reason": "attacker_dead"
+    }
+  ],
+  "seed_records": 1
+}

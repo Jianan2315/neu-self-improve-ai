@@ -1,0 +1,24 @@
+{
+  "validation_date": "2026-09-25",
+  "platform": "Windows x64",
+  "python": "3.13.3",
+  "dotnet_sdk": "8.0.425",
+  "ollama": "0.34.0",
+  "repositories": {
+    "OpenRA-RL": {
+      "url": "https://github.com/yxc20089/OpenRA-RL.git",
+      "commit": "5dadd449c912ac2d4021cc8ed84fc0b385b1543c",
+      "version": "0.4.1"
+    },
+    "OpenRA": {
+      "url": "https://github.com/yxc20089/OpenRA.git",
+      "commit": "9b271c1a5562a07deeb1c3f81d9a556cd563a676"
+    }
+  },
+  "designer_model": {
+    "tag": "qwen3:8b",
+    "quantization": "Q4_K_M",
+    "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41"
+  },
+  "python_snapshot": "requirements-windows-py313.txt"
+}

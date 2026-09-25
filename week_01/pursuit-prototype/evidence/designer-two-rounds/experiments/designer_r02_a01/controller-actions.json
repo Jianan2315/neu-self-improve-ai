@@ -1,0 +1,26 @@
+[
+  {
+    "issued_after_tick": 30,
+    "commands": [
+      {
+        "action": "stop",
+        "actor_id": 8
+      },
+      {
+        "action": "move",
+        "actor_id": 8,
+        "target_x": 3,
+        "target_y": 18,
+        "queued": true
+      },
+      {
+        "action": "move",
+        "actor_id": 8,
+        "target_x": 3,
+        "target_y": 15,
+        "queued": true
+      }
+    ],
+    "observed_after_tick": 36
+  }
+]

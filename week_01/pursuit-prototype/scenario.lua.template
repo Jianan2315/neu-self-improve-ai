@@ -1,0 +1,79 @@
+-- A receives scenario commands. B receives no attack/move commands.
+-- Both units retain their stock weapons, health, speed and targeting logic.
+local scenario = "__NAME__"
+local hit = false
+local hits = 0
+local finished = false
+local attackTick = __ATTACK_TICK__
+local maxTicks = __MAX_TICKS__
+local sampleInterval = __SAMPLE_INTERVAL__
+local route = { __ROUTE_CELLS__ }
+local nextWaypoint = 1
+
+local function event(kind, extra)
+    print("PURSUIT " .. '{"scenario":"' .. scenario .. '","kind":"' .. kind .. '","tick":' .. DateTime.GameTime .. (extra or "") .. '}')
+end
+
+local function state(actor)
+    if actor.IsDead or not actor.IsInWorld then
+        return '{"alive":false}'
+    end
+    local cell = actor.Location
+    local pos = actor.CenterPosition
+    return string.format('{"alive":true,"x":%d,"y":%d,"wx":%d,"wy":%d,"hp":%d,"max_hp":%d,"idle":%s,"stance":"%s"}',
+        cell.X, cell.Y, pos.X, pos.Y, actor.Health, actor.MaxHealth, tostring(actor.IsIdle), actor.Stance)
+end
+
+local function sample()
+    event("sample", ',"a":' .. state(PursuitA) .. ',"b":' .. state(PursuitB))
+end
+
+WorldLoaded = function()
+    event("loaded")
+    Trigger.OnDamaged(PursuitB, function(self, attacker, damage)
+        if attacker == PursuitA and damage > 0 then
+            hits = hits + 1
+            event("a_hit_b", ',"damage":' .. damage .. ',"hit_count":' .. hits)
+            if not hit and not PursuitA.IsDead then
+                hit = true
+                PursuitA.Stop()
+                __ESCAPE_COMMANDS__
+                event("escape_command")
+                sample()
+            end
+        end
+    end)
+    Trigger.OnDamaged(PursuitA, function(self, attacker, damage)
+        if attacker == PursuitB and damage > 0 then
+            event("b_hit_a", ',"damage":' .. damage)
+        end
+    end)
+    Trigger.OnKilled(PursuitA, function() event("a_killed") end)
+    Trigger.OnKilled(PursuitB, function() event("b_killed") end)
+end
+
+Tick = function()
+    if finished then return end
+    if hit and not PursuitA.IsDead and nextWaypoint <= #route then
+        local p = PursuitA.Location
+        local goal = route[nextWaypoint]
+        if p.X == goal.X and p.Y == goal.Y then
+            event("waypoint_reached", ',"index":' .. nextWaypoint)
+            nextWaypoint = nextWaypoint + 1
+        end
+    end
+    if DateTime.GameTime == attackTick and not PursuitA.IsDead and not PursuitB.IsDead then
+        PursuitA.Attack(PursuitB)
+        event("attack_command")
+    end
+    if DateTime.GameTime % sampleInterval == 0 then sample() end
+    local reason = nil
+    if PursuitA.IsDead then reason = "attacker_dead"
+    elseif PursuitB.IsDead then reason = "defender_dead"
+    elseif DateTime.GameTime >= maxTicks then reason = "time_limit" end
+    if reason ~= nil then
+        sample()
+        event("finished", ',"reason":"' .. reason .. '"')
+        finished = true
+    end
+end

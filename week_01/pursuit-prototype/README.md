@@ -1,0 +1,44 @@
+# Local environment-designer loop
+
+The model reads previous results and proposes a scene configuration. A fixed generator creates the map and Lua, a runner executes the real game, and results return to the model. Invalid proposals receive feedback and bounded retries; the runner does not silently substitute a handcrafted scene.
+
+Read [SETUP.md](SETUP.md), [RESULTS.md](RESULTS.md), and [evidence/README.md](evidence/README.md).
+
+## Run
+
+After preparing dependencies, run `./run-designer.ps1` here. Defaults: local Ollama at localhost:11434, qwen3:8b, two rounds, at most three proposals per round. No API key is used. Options include `-Rounds 1`, `-RuntimeRoot 'YOUR_RUNTIME_DIRECTORY'`, and `-CheckOnly` to verify paths without starting a model or game.
+
+Runtime selection: explicit -RuntimeRoot, environment variable OPENRA_RUNTIME_ROOT, ignored `.runtime-path` file, then `.runtime` in this directory. New output goes into ignored `designer-runs/<timestamp>/`. Errors and rejected proposals are preserved.
+
+`./run.ps1` is the earlier fixed-scene entry point, not the designer loop. scenario.json retains the artillery baseline. New designer scenes use two light tanks.
+
+## Components
+
+| File | Responsibility |
+|---|---|
+| designer_loop.py | Local model calls, constrained output, checks, bounded repair, execution/feedback orchestration |
+| designer_context.md | Domain capabilities and constraints supplied to the model |
+| pursuit.py | Validate configuration, generate map, run engine, evaluate events |
+| scenario.lua.template | First-hit trigger, retreat and scene telemetry |
+| runtime.ps1 | Machine-local dependency discovery |
+| test_pursuit.py / test_designer_loop.py | Validation and feedback-propagation checks |
+
+Both units are 1tnk, A=(16,18), B=(21,18), seed=1234. A initially holds fire, then attacks. At its first positive hit, the script queues retreat. B receives no external movement/attack orders.
+
+Round 1 retreats west to x=3. Later rounds retain the route and append a turning destination chosen by the model. The host sets the curriculum; the model also chooses attack_tick in 1–10, max_ticks in 600–1500, and sample_interval in 5–10. At most three rounds are supported.
+
+The native Stop order is sent to A after the Lua retreat trigger to clear its persistent turret target, then the same route is requeued. No engine, weapon, health or speed modifications are made. B remains uncontrolled by the test driver. Native command timing is logged.
+
+Validity requires one A hit, the retreat trigger, observations and an ending event, and no B damage before the first A hit. Death or absence of pursuit alone does not invalidate a scene. Route completion and survival are separate.
+
+Final factual fields returned by the model are checked against logs; the program renders the factual summary. Free-text reasons and next questions are not verified causal explanations.
+
+## Checks and scope
+
+Run `python -m unittest test_pursuit test_designer_loop` here. Fourteen checks passed using Python's standard library; they do not replace real execution.
+
+The default seed [evidence/baseline/history.json](evidence/baseline/history.json) is committed, so the ignored old runs-final folder is unnecessary. For a fresh baseline, run run.ps1 and pass its history via -SeedHistory.
+
+Current scope is configuration design through a fixed template: no arbitrary environment code, obstacles, teleportation, multiple targets, policy training, or direct measurement of internal aggro targets. Added turns are structural complexity, not proven training benefit.
+
+The current prompts request English explanations and questions, and the factual summary is rendered in English. Submitted historical model-call records are labeled English translations; see evidence/README.md for provenance.
