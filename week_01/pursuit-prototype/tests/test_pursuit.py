@@ -2,10 +2,15 @@
 import copy
 import json
 import unittest
+import sys
 from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
 from pursuit import evaluate, validate, parse_events
 
-SPEC = json.loads((Path(__file__).parent / 'scenario.json').read_text())
+SPEC = json.loads((PROJECT_ROOT / 'baseline/scenario.json').read_text())
 
 
 class EvaluationContract(unittest.TestCase):

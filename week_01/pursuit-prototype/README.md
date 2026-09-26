@@ -10,7 +10,16 @@ After preparing dependencies, run `./run-designer.ps1` here. Defaults: local Oll
 
 Runtime selection: explicit -RuntimeRoot, environment variable OPENRA_RUNTIME_ROOT, ignored `.runtime-path` file, then `.runtime` in this directory. New output goes into ignored `designer-runs/<timestamp>/`. Errors and rejected proposals are preserved.
 
-`./run.ps1` is the earlier fixed-scene entry point, not the designer loop. scenario.json retains the artillery baseline. New designer scenes use two light tanks.
+`./baseline/run.ps1` is the earlier fixed-scene entry point, not the designer loop. `baseline/scenario.json` retains the artillery baseline. New designer scenes use two light tanks.
+
+## Directory layout
+
+- Project root: the automatic designer entry point, shared execution code, prompt, Lua template, dependencies and documentation.
+- `baseline/`: the fixed-scene launcher and configuration, usable to reproduce or refresh the initial baseline.
+- `tests/`: development checks with simulated inputs/results. They are run explicitly and are not imported by the normal experiment entry points.
+- `evidence/`: curated inputs and results from actual experiments, including the baseline history used by the designer.
+
+The automatic designer uses `evidence/baseline/history.json` by default. It does not need the test files or the fixed-baseline launcher to run. Keep `pursuit.py` in the project root: both the fixed baseline and automatic designer use its map generation, execution and evaluation functions.
 
 ## Components
 
@@ -21,7 +30,7 @@ Runtime selection: explicit -RuntimeRoot, environment variable OPENRA_RUNTIME_RO
 | pursuit.py | Validate configuration, generate map, run engine, evaluate events |
 | scenario.lua.template | First-hit trigger, retreat and scene telemetry |
 | runtime.ps1 | Machine-local dependency discovery |
-| test_pursuit.py / test_designer_loop.py | Validation and feedback-propagation checks |
+| tests/test_pursuit.py / tests/test_designer_loop.py | Validation and feedback-propagation checks |
 
 Both units are 1tnk, A=(16,18), B=(21,18), seed=1234. A initially holds fire, then attacks. At its first positive hit, the script queues retreat. B receives no external movement/attack orders.
 
@@ -35,9 +44,9 @@ Final factual fields returned by the model are checked against logs; the program
 
 ## Checks and scope
 
-Run `python -m unittest test_pursuit test_designer_loop` here. Fourteen checks passed using Python's standard library; they do not replace real execution.
+Run `python -m unittest discover -s tests` here. Fourteen checks passed using Python's standard library; they do not replace real execution.
 
-The default seed [evidence/baseline/history.json](evidence/baseline/history.json) is committed, so the ignored old runs-final folder is unnecessary. For a fresh baseline, run run.ps1 and pass its history via -SeedHistory.
+The default seed [evidence/baseline/history.json](evidence/baseline/history.json) is committed, so the ignored old runs-final folder is unnecessary. For a fresh baseline, run `./baseline/run.ps1` and pass its history via -SeedHistory.
 
 Current scope is configuration design through a fixed template: no arbitrary environment code, obstacles, teleportation, multiple targets, policy training, or direct measurement of internal aggro targets. Added turns are structural complexity, not proven training benefit.
 

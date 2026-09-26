@@ -4,6 +4,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import sys
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
 
 from designer_loop import check_proposal, execute_loop, LocalDesigner, review_result
 

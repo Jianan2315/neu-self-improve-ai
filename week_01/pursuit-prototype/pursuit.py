@@ -310,7 +310,7 @@ def run_one(spec, runtime, output, port):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime-root', type=Path, required=True)
-    parser.add_argument('--spec', type=Path, default=HERE / 'scenario.json')
+    parser.add_argument('--spec', type=Path, default=HERE / 'baseline/scenario.json')
     parser.add_argument('--output', type=Path, default=HERE / 'runs')
     parser.add_argument('--rounds', type=int, default=1, choices=range(1, 4))
     parser.add_argument('--port', type=int, default=19100)

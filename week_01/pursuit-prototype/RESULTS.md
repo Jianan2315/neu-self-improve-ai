@@ -73,3 +73,7 @@ Personal paths were removed from the entry points and the seed moved to committe
 ## English-language submission
 
 After the recorded experiments, prompts and deterministic summaries were changed to English, and historical Chinese prose was translated for publication. This language change does not alter the simulator or scenario validation rules, but a model may produce different proposals under an English prompt. The September 25 results belong to the original prompts. The September 26 section above reports the subsequent full validation with English prompts and explicit coordinate checks. See evidence/README.md and provenance.json for translation details.
+
+## Directory organization after validation
+
+Development tests were moved to tests/, and the fixed-scene launcher/configuration to baseline/. The standalone default configuration path in pursuit.py and documentation were updated. The simulation, designer decisions and prompt were not changed by this move. Existing evidence/source hashes describe the recorded pre-move versions; this directory-only revision does not claim another full model/game run.

@@ -36,4 +36,6 @@ The Python entry points import the pinned source directly from runtime/source; a
 - Ollama uses localhost:11434; the game bridge uses port 19100. Run experiments sequentially.
 - CheckOnly verifies paths and availability of a dotnet executable, not its version, model generation, or successful game execution.
 
-Without game/model dependencies, `python -m unittest test_pursuit test_designer_loop` checks validation and feedback logic using only Python. Real game evidence is committed separately.
+Without game/model dependencies, `python -m unittest discover -s tests` checks validation and feedback logic using only Python. Real game evidence is committed separately.
+
+The fixed baseline can be run separately with `./baseline/run.ps1` from the project root. Its default configuration is baseline/scenario.json; output still goes to the ignored runs/ directory in the project root. The main designer entry point remains ./run-designer.ps1.
