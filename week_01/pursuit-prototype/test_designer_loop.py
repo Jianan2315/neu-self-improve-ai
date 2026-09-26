@@ -44,6 +44,9 @@ class FakeClient:
 class DesignerContracts(unittest.TestCase):
     def test_wrong_direction_and_unsafe_name_rejected(self):
         for mutate in [lambda p: p['scenario'].update(escape_route=[[108, 18]]),
+                       lambda p: p['scenario'].update(escape_route=[[3, 17]]),
+                       lambda p: p['scenario'].update(attacker_cell=[16, 17]),
+                       lambda p: p['scenario'].update(defender_cell=[21, 17]),
                        lambda p: p['scenario'].update(name='../escape')]:
             p = proposal('designer_r01_a01', BASE['name'])
             mutate(p)
@@ -53,11 +56,26 @@ class DesignerContracts(unittest.TestCase):
         with self.assertRaises(ValueError):
             check_proposal(proposal('r1', 'invented'), 1, 'r1', BASE)
 
-    def test_added_collinear_destination_is_not_a_turn(self):
-        p = proposal('r2', 'r1', 2)
-        p['scenario']['escape_route'][-1] = [8, 18]
+    def test_later_destinations_require_bounds_turns_and_preserved_history(self):
+        prior = dict(BASE, name='r1', escape_route=[[3, 18]])
+        for destination in ([8, 18], [3, 18], [2, 15], [3, 50]):
+            with self.subTest(rejected_destination=destination):
+                p = proposal('r2', 'r1', 2)
+                p['scenario']['escape_route'][-1] = destination
+                with self.assertRaises(ValueError):
+                    check_proposal(p, 2, 'r2', prior)
+        for destination in ([3, 15], [3, 30], [8, 15]):
+            with self.subTest(accepted_destination=destination):
+                p = proposal('r2', 'r1', 2)
+                p['scenario']['escape_route'][-1] = destination
+                self.assertEqual(check_proposal(p, 2, 'r2', prior)['escape_route'][-1], destination)
+        prior = dict(BASE, name='r2', escape_route=[[3, 18], [3, 15]])
+        p = proposal('r3', 'r2')
+        p['scenario']['escape_route'] = [[3, 18], [3, 15], [8, 15]]
+        self.assertEqual(check_proposal(p, 3, 'r3', prior), p['scenario'])
+        p['scenario']['escape_route'][1] = [3, 14]
         with self.assertRaises(ValueError):
-            check_proposal(p, 2, 'r2', dict(BASE, name='r1', escape_route=[[3, 18]]))
+            check_proposal(p, 3, 'r3', prior)
 
     def test_invalid_output_never_runs_and_real_feedback_reaches_next_round(self):
         client = FakeClient(reject_first=True)

@@ -2,13 +2,37 @@
 
 Validation date: September 25, 2026. The actual two-round loop used local qwen3:8b and the pinned OpenRA-RL/OpenRA runtime, without policy training or cloud calls.
 
+## Current English-prompt validation — September 26, 2026
+
+The current English prompts and explicit coordinate checks were exercised in a fresh, complete two-round run, 20260926-035936-332. Local qwen3:8b used the same model digest as the earlier run. Both proposals passed on their first attempt, both real game experiments passed, and the final model fact check passed. Overall status: complete. Fourteen unit tests and both entry-point path checks also passed before execution.
+
+| Measurement | Round 1 | Round 2 |
+|---|---|---|
+| Scene | designer_r01_a01 | designer_r02_a01 |
+| Escape destinations | (3,18) | (3,18), (3,20) |
+| Planned turns | 0 | 1 |
+| max_ticks | 1200 | 1500 |
+| First A hit on B | tick 30 | tick 30 |
+| Total A hits on B | 1 | 1 |
+| Reached destinations | 1, at tick 176 | 2, at ticks 176 and 207 |
+| Route completed | Yes | Yes |
+| End reason | attacker_dead | attacker_dead |
+| Experimental validity | Passed | Passed |
+| Runner process cleanup | Confirmed | Confirmed |
+
+Both scenes used two 1tnk units, A=(16,18), B=(21,18), seed=1234, attack_tick=10 and sample_interval=5. The second destination (3,20) was chosen by the model, not fixed by the validator. The model also changed max_ticks; these runs do not isolate the causal effect of the turn. Arrival and survival remain measured outcomes, not mandatory pass conditions. This successful run did not exercise repair, since no proposal was rejected; earlier evidence and unit tests cover that path.
+
+The model's first-round free-text rationale mentioned additional turns although its actual route contained none. That prose is retained unchanged and is not treated as a measured fact. Actual configuration, events and verified final fields determine the reported results.
+
+See the [run status](evidence/english-two-rounds/status.json), [history](evidence/english-two-rounds/history.json), [verified review](evidence/english-two-rounds/final-review.json) and [source/model provenance](evidence/english-two-rounds/provenance.json). Retained model-call records are original English outputs, not translations. The older results below remain a separate historical run.
+
 ## Library investigation
 
 The multi-session backend loads generated maps via reset(map_data=...) and advances simulation through gRPC. Its existing action interface provides native Stop and queued Move orders. Lua damage/death callbacks and position/health telemetry provide the event record.
 
 Initial smoke tests verified movement, stopping, reset and custom-map damage. Five selected library test modules passed 447 checks, including mocked tests. The submitted prototype has a separate reproducible set of 14 standard-library checks. Neither set replaces the actual game runs below.
 
-## Actual two-round designer run
+## Earlier two-round designer run — September 25, 2026
 
 Common conditions: two 1tnk light tanks, A=(16,18), B=(21,18), seed=1234, attack_tick=10, max_ticks=1200, sample_interval=5. B receives no external movement/attack orders.
 
@@ -48,4 +72,4 @@ Personal paths were removed from the entry points and the seed moved to committe
 
 ## English-language submission
 
-After the recorded experiments, prompts and deterministic summaries were changed to English, and historical Chinese prose was translated for publication. This language change does not alter the simulator or scenario validation rules, but a model may produce different proposals under an English prompt. The recorded two-round results belong to the original prompts; no full game rerun is claimed for this language-only revision. See evidence/README.md and provenance.json for translation details.
+After the recorded experiments, prompts and deterministic summaries were changed to English, and historical Chinese prose was translated for publication. This language change does not alter the simulator or scenario validation rules, but a model may produce different proposals under an English prompt. The September 25 results belong to the original prompts. The September 26 section above reports the subsequent full validation with English prompts and explicit coordinate checks. See evidence/README.md and provenance.json for translation details.

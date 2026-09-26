@@ -1,0 +1,20 @@
+{
+  "valid": true,
+  "errors": [],
+  "hit_count": 1,
+  "first_hit_tick": 30,
+  "escape_tick": 30,
+  "end_reason": "attacker_dead",
+  "attacker_displacement_cells_after_escape": 14.142,
+  "defender_displacement_cells_after_escape": 15.0,
+  "defender_moved_toward_attacker_segments": 30,
+  "defender_damage_events": 20,
+  "escape_waypoints_reached": 2,
+  "escape_route_completed": true,
+  "behavior_note": "Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.",
+  "native_stop_after_tick": 30,
+  "name": "designer_r02_a01",
+  "max_seen_tick": 438,
+  "process_stopped": true,
+  "map_sha256": "548b48249e232a7e2fc58eb3f3b945d2614b37c5746a73a111fe1e4b973492ad"
+}

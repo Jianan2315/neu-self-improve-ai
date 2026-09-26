@@ -1,0 +1,12 @@
+{
+  "last_scene": "designer_r02_a01",
+  "observed_end_reason": "attacker_dead",
+  "first_hit_attacker": "A",
+  "first_hit_target": "B",
+  "experiment_valid": true,
+  "first_hit_tick": 30,
+  "waypoints_reached": 2,
+  "next_question": "Did the defender successfully pursue the attacker after the first hit, and how did the attacker's escape route affect the outcome?",
+  "summary": "A first hit B at tick 30, triggering retreat. Waypoints reached: 2; end reason: attacker_dead.",
+  "summary_source": "deterministic_rendering_of_verified_game_facts"
+}

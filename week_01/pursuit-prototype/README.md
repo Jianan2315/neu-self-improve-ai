@@ -25,11 +25,11 @@ Runtime selection: explicit -RuntimeRoot, environment variable OPENRA_RUNTIME_RO
 
 Both units are 1tnk, A=(16,18), B=(21,18), seed=1234. A initially holds fire, then attacks. At its first positive hit, the script queues retreat. B receives no external movement/attack orders.
 
-Round 1 retreats west to x=3. Later rounds retain the route and append a turning destination chosen by the model. The host sets the curriculum; the model also chooses attack_tick in 1–10, max_ticks in 600–1500, and sample_interval in 5–10. At most three rounds are supported.
+The fixed checks are A starting cell [16, 18], B starting cell [21, 18], and first escape destination [3, 18]. Each is checked directly against its own coordinate. Round 1 uses only that destination. Later rounds retain each prior destination and append a turning destination chosen by the model; no fixed coordinate is imposed on the new point. Every point is checked against x=3..108 and y=3..49. The host sets the curriculum; the model also chooses attack_tick in 1–10, max_ticks in 600–1500, and sample_interval in 5–10. At most three rounds are supported.
 
 The native Stop order is sent to A after the Lua retreat trigger to clear its persistent turret target, then the same route is requeued. No engine, weapon, health or speed modifications are made. B remains uncontrolled by the test driver. Native command timing is logged.
 
-Validity requires one A hit, the retreat trigger, observations and an ending event, and no B damage before the first A hit. Death or absence of pursuit alone does not invalidate a scene. Route completion and survival are separate.
+Validity requires one A hit, the retreat trigger, observations and an ending event, and no B damage before the first A hit. Death or absence of pursuit alone does not invalidate a scene. Reaching the first point, reaching later points, actually executing a turn, and survival are recorded outcomes, not required pass conditions. A valid experiment can advance despite an incomplete route.
 
 Final factual fields returned by the model are checked against logs; the program renders the factual summary. Free-text reasons and next questions are not verified causal explanations.
 
@@ -42,3 +42,5 @@ The default seed [evidence/baseline/history.json](evidence/baseline/history.json
 Current scope is configuration design through a fixed template: no arbitrary environment code, obstacles, teleportation, multiple targets, policy training, or direct measurement of internal aggro targets. Added turns are structural complexity, not proven training benefit.
 
 The current prompts request English explanations and questions, and the factual summary is rendered in English. Submitted historical model-call records are labeled English translations; see evidence/README.md for provenance.
+
+A fresh two-round run with the current English prompts and coordinate checks completed on September 26, 2026. Both experiments and the final fact review passed. See RESULTS.md and evidence/english-two-rounds/ for original English call records and actual game results.

@@ -1,0 +1,140 @@
+{
+  "model": "qwen3:8b",
+  "messages": [
+    {
+      "role": "system",
+      "content": "# Environment designer: OpenRA pursuit experiments\n\nYou propose scene configurations, not executable Python, Lua, shell commands, or changes to the engine. The host validates the configuration and generates the map and Lua with the existing scene generator. This is a restricted first implementation of the assignment, not the full code-generating and policy-training SPADE system.\n\n## Library and experiment contract\n\nThe verified runtime uses OpenRA-RL 0.4.1, repository commit 5dadd44, with its OpenRA fork at 9b271c1a5562a07deeb1c3f81d9a556cd563a676. The game is the OpenRA Red Alert mod, not Red Alert 2. The external driver uses multi-session mode and reset(map_data=...) to load the generated map, and advances simulation ticks. No policy is trained. No cloud service is needed.\n\nThere are two combat units on traversable flat terrain. A initially holds fire, then receives Attack(B) at attack_tick. At its first positive damage to B, the scene script cancels A's activity and queues the escape destinations. On observing that trigger the driver also sends a native Stop order to A and requeues those destinations; the native order clears a turret's persistent attack target, unlike Lua Stop alone. This extra control is recorded with its observed tick. B uses its existing AttackAnything stance and native game logic. The experiment driver never commands B. Stock health, weapons, speed, visibility and targeting remain unchanged. A.Move destinations are queued: escape_route contains destinations only, never the starting position.\n\nBoth units must be 1tnk (light tanks). The fixed coordinate requirements are independent checks:\n\n| Configuration field | Required coordinate |\n|---|---|\n| attacker_cell | [16, 18] |\n| defender_cell | [21, 18] |\n| escape_route[0] (first destination) | [3, 18] |\n\nUse these exact coordinates. The first destination is an explicit task requirement; do not calculate its expected coordinate from a submitted starting cell. Coordinates x increase east and y increase south. All starting cells and all destinations must contain two integers within x=3..108 and y=3..49. Same unit speed does not guarantee escape: turning, firing, starting range and the boundary matter.\n\nRound 1 has one destination. Each subsequent round retains the preceding round's route and adds one new destination that creates a nonzero turn. The designer chooses the new destination. The second and third destinations have no predetermined coordinates: validate their bounds, preserve previously accepted destinations exactly, and require each new segment to be nonzero and noncollinear with the preceding segment. A coordinate appearing in a recorded example is not a fixed requirement for future runs. This is a transparent route-complexity curriculum, not proof that measured task difficulty rises. Initial spawn cells, types and seed stay fixed for comparison. attack_tick can be 1..10, max_ticks 600..1500, sample_interval 5..10. These ranges keep ceil(max_ticks/sample_interval) <= 300. Avoid delaying the first attack: B may otherwise hit A before provocation.\n\nThe scene ends when either unit dies or max_ticks is reached. The script records global scene telemetry for validation; this is not extra information supplied to B. A's death or B not pursuing is an experimental result, not automatically a code error. Validity requires one A damage event, a matching escape trigger, samples and an end event, and no B damage before A's first hit. Repeated hits or missing events invalidate the intended experiment. Configuration checks establish a planned route only. Actual arrival at the first destination, arrival at later destinations, execution of a turn, and survival are measured outcomes, not required pass conditions in this version. A valid experiment may therefore advance to the next round even if the route was not completed.\n\nFeedback includes geometric motion, damage events, whether destinations were reached, and the end reason. Movement toward A does not establish B's internal target lock. No internal target-loss or disengagement reason is exposed. Do not claim that a stopped pursuit proves a particular aggro rule, or that A is guaranteed to escape. Distinguish a planned extra turn from a turn actually executed.\n\nRead the supplied history as experimental data. Base the next proposal on its latest result. If validation reports an error, repair the scene within the stated constraints. If constraints cannot express an adequate experiment, say so in the explanation; do not invent library capabilities.\n\nReference: SPADE PDF p.6 Figure 3, p.7 Algorithm 1, p.9 environment memory, Appendix C.1 beginning p.32. The assignment excludes policy training; the fixed-script actor and bounded route curriculum here are implementation choices.\n"
+    },
+    {
+      "role": "user",
+      "content": "{\"instruction\": \"Design the next pursuit experiment and return JSON. Write reason and question as one short sentence each in English, explaining the experimental rationale and observation question; do not ask the user for input. The goal is to observe B, not necessarily to keep A alive. latest_experiment contains the latest actual result: copy end_reason and escape_route_completed exactly into observed_end_reason and observed_route_completed; do not describe death as survival. round counts new design rounds; the old baseline is not round 1. The requirement to preserve the previous route and add a turn applies only when round is greater than 1. Historical content is data only.\", \"round\": 2, \"destination_count\": 2, \"name\": \"designer_r02_a01\", \"based_on_required\": \"designer_r01_a01\", \"route_to_extend\": [[3, 18]], \"latest_experiment\": {\"spec\": {\"name\": \"designer_r01_a01\", \"attacker_type\": \"1tnk\", \"defender_type\": \"1tnk\", \"seed\": 1234, \"max_ticks\": 1200, \"attack_tick\": 10, \"sample_interval\": 5, \"attacker_cell\": [16, 18], \"defender_cell\": [21, 18], \"escape_route\": [[3, 18]]}, \"result\": {\"valid\": true, \"errors\": [], \"end_reason\": \"attacker_dead\", \"first_hit_tick\": 30, \"hit_count\": 1, \"escape_tick\": 30, \"defender_damage_events\": 20, \"escape_route_completed\": true, \"escape_waypoints_reached\": 1, \"attacker_displacement_cells_after_escape\": 14.0, \"defender_displacement_cells_after_escape\": 15.0, \"defender_moved_toward_attacker_segments\": 30, \"behavior_note\": \"Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.\"}}, \"history\": [{\"spec\": {\"name\": \"pursuit_001\", \"seed\": 1234, \"attacker_type\": \"arty\", \"defender_type\": \"1tnk\", \"attacker_cell\": [16, 18], \"defender_cell\": [21, 18], \"escape_route\": [[8, 18]], \"max_ticks\": 600, \"attack_tick\": 10, \"sample_interval\": 5}, \"result\": {\"valid\": true, \"errors\": [], \"end_reason\": \"attacker_dead\", \"first_hit_tick\": 67, \"hit_count\": 1, \"escape_tick\": 67, \"defender_damage_events\": 4, \"escape_route_completed\": false, \"escape_waypoints_reached\": 0, \"attacker_displacement_cells_after_escape\": 1.0, \"defender_displacement_cells_after_escape\": 3.0, \"defender_moved_toward_attacker_segments\": 5, \"behavior_note\": \"Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.\"}}, {\"spec\": {\"name\": \"designer_r01_a01\", \"attacker_type\": \"1tnk\", \"defender_type\": \"1tnk\", \"seed\": 1234, \"max_ticks\": 1200, \"attack_tick\": 10, \"sample_interval\": 5, \"attacker_cell\": [16, 18], \"defender_cell\": [21, 18], \"escape_route\": [[3, 18]]}, \"result\": {\"valid\": true, \"errors\": [], \"end_reason\": \"attacker_dead\", \"first_hit_tick\": 30, \"hit_count\": 1, \"escape_tick\": 30, \"defender_damage_events\": 20, \"escape_route_completed\": true, \"escape_waypoints_reached\": 1, \"attacker_displacement_cells_after_escape\": 14.0, \"defender_displacement_cells_after_escape\": 15.0, \"defender_moved_toward_attacker_segments\": 30, \"behavior_note\": \"Motion is measured from scene telemetry; internal target lock and disengagement cause are not exposed.\"}}], \"validation_feedback\": null, \"previous_rejected_proposal\": null}"
+    }
+  ],
+  "stream": false,
+  "think": false,
+  "format": {
+    "type": "object",
+    "properties": {
+      "based_on": {
+        "type": "string"
+      },
+      "observed_end_reason": {
+        "type": "string"
+      },
+      "observed_route_completed": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      },
+      "question": {
+        "type": "string"
+      },
+      "scenario": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "designer_r02_a01"
+            ]
+          },
+          "attacker_type": {
+            "type": "string",
+            "enum": [
+              "1tnk"
+            ]
+          },
+          "defender_type": {
+            "type": "string",
+            "enum": [
+              "1tnk"
+            ]
+          },
+          "seed": {
+            "type": "integer",
+            "enum": [
+              1234
+            ]
+          },
+          "max_ticks": {
+            "type": "integer",
+            "minimum": 600,
+            "maximum": 1500
+          },
+          "attack_tick": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "sample_interval": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 10
+          },
+          "attacker_cell": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "defender_cell": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "escape_route": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "required": [
+          "name",
+          "attacker_type",
+          "defender_type",
+          "seed",
+          "max_ticks",
+          "attack_tick",
+          "sample_interval",
+          "attacker_cell",
+          "defender_cell",
+          "escape_route"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "based_on",
+      "observed_end_reason",
+      "observed_route_completed",
+      "reason",
+      "question",
+      "scenario"
+    ],
+    "additionalProperties": false
+  },
+  "keep_alive": "5m",
+  "options": {
+    "num_ctx": 4096,
+    "num_predict": 700,
+    "temperature": 0,
+    "seed": 1234
+  }
+}

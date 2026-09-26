@@ -61,17 +61,28 @@ def check_proposal(proposal, round_number, name, last_spec):
         raise ValueError(f'name must be {name}')
     if spec['seed'] != 1234 or spec['attacker_type'] != '1tnk' or spec['defender_type'] != '1tnk':
         raise ValueError('Keep seed=1234 and both unit types=1tnk')
-    if spec['attacker_cell'] != [16, 18] or spec['defender_cell'] != [21, 18]:
-        raise ValueError('Keep A=[16,18], B=[21,18]')
+    # Check each fixed coordinate against its own explicit requirement.
+    if spec['attacker_cell'] != [16, 18]:
+        raise ValueError('A starting cell must be [16, 18]')
+    if spec['defender_cell'] != [21, 18]:
+        raise ValueError('B starting cell must be [21, 18]')
     route = spec['escape_route']
     if len(route) != round_number:
         raise ValueError(f'Use exactly {round_number} destinations; exclude starting position')
-    expected_first = [3, spec['attacker_cell'][1]]
-    if route[0] != expected_first:
-        raise ValueError(f'First destination must be west boundary at unchanged y: {expected_first}; do not include starting position')
-    if round_number > 1 and route[:-1] != last_spec['escape_route']:
-        raise ValueError(f"Preserve previous route {last_spec['escape_route']} then append one new destination")
-    points = [spec['attacker_cell'], *route]
+    if route[0] != [3, 18]:
+        raise ValueError('First escape destination must be [3, 18]; exclude the starting cell')
+    # Later destinations are model-selected, not fixed coordinates. validate()
+    # checks every destination against x=3..108 and y=3..49.
+    if round_number > 1:
+        previous_route = last_spec['escape_route']
+        if len(route) != len(previous_route) + 1:
+            raise ValueError('Append exactly one destination to the previous route')
+        for destination_index, previous_destination in enumerate(previous_route):
+            if route[destination_index] != previous_destination:
+                raise ValueError(
+                    f'Destination {destination_index + 1} must remain {previous_destination}')
+    # Include the fixed starting cell only to check the planned segment geometry.
+    points = [[16, 18], *route]
     for i in range(1, len(points)):
         if points[i] == points[i - 1]:
             raise ValueError('Consecutive route points must differ')

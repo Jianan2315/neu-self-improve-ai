@@ -1,0 +1,16 @@
+{
+  "seed_history_path": "evidence/baseline/history.json",
+  "seed_history_sha256": "8ea3fe28ead12333b2620458b8a6ae26f6533d658e2b55aa26b1749a1ed28085",
+  "model": "qwen3:8b",
+  "endpoint": "http://localhost:11434",
+  "runtime_root": "<local-runtime-not-committed>",
+  "code_sha256": {
+    "designer_loop.py": "6d4a8470bb405b4014d9db797f469b91809404decb5eedc1f5aad30c94c951d8",
+    "designer_context.md": "7cfe6b7064f098ab2f8a52707bb16a89a85ab1ec0b2777796730a7e47ce34644",
+    "pursuit.py": "76d10c54b9bb7681e9a026132a254e189731dc2cdba29b9cf33ca364620161c7",
+    "scenario.lua.template": "484be7d0d963931ff8007f7eb287dad2fc93b07f254429f504678a93af42a201"
+  },
+  "run_id": "20260926-035936-332",
+  "model_digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+  "publication_note": "Only the two local path fields were normalized. Retained requests, responses, parsed outputs, events and results are verbatim records of the actual English-prompt run. Source hashes were verified against the submitted code and prompt."
+}
