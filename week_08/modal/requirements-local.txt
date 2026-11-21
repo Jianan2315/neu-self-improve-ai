@@ -1,0 +1,6 @@
+# Local notebook and Modal client only. Cloud dependencies are defined in
+# search_r1_framework_modal.py; do not use the original TRL requirements here.
+modal
+jupyterlab
+ipykernel
+openpyxl==3.1.5
