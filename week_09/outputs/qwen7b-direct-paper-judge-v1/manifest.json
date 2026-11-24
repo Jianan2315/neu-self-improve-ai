@@ -1,0 +1,22 @@
+{
+  "protocol": {
+    "method": "qwen7b_direct",
+    "model_id": "Qwen/Qwen2.5-7B-Instruct",
+    "dataset": "Bamboogle",
+    "settings": {
+      "question_limit": 125,
+      "seeds": [
+        42,
+        43,
+        44
+      ],
+      "temperature": 0.7,
+      "max_new_tokens": 512,
+      "judge_model": "gpt-4o-2024-08-06",
+      "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "gpu": "A100-80GB"
+    },
+    "system_prompt": "Answer the factual question using your own knowledge. You may reason briefly, then give a concise final answer.",
+    "judge_prompt": "Task: Determine if the Model Response is equivalent to the Ground Truth.\n\nInstructions:\n1. Extract: Isolate the final answer from the Model Response, ignoring all reasoning\n   steps. Look specifically for the marked final answer or the concluding statement.\n2. Normalize & Compare: Assess equivalence after normalization.\n3. Mathematical Answers: Must be mathematically identical (e.g., 1/2 is equivalent to 0.5).\n4. Numerical/Textual Answers: Ignore formatting (commas, spaces), case sensitivity,\n   and extraneous units/currency (e.g., \"1,000\" == \"1000\", \"Paris\" == \"PARIS\").\n5. Multiple Choice Questions (MCQ): The answer must match either the correct option's\n   content (e.g., \"Paris\") or its identifier (e.g., \"A\" or \"1st\").\n6. Verdict: Return true only if the normalized answers are semantically or\n   mathematically equivalent.\n\nInputs are supplied as JSON: question is the Question, candidate_response is the\nModel Response, and reference_answers contains alternative acceptable Ground Truth\nanswers. Equivalence to any one reference answer is sufficient.\n\nOutput Format: Return only a JSON object with exactly two fields:\n\"analysis\": a brief analysis of the comparison;\n\"correct\": true or false (a JSON boolean).\nDo not include any extra text outside the JSON object."
+  }
+}
